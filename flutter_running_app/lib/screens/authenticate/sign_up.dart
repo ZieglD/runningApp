@@ -1,20 +1,23 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_running_app/screens/authenticate/sign_up.dart';
+import 'package:flutter_running_app/screens/authenticate/sign_in.dart';
 import 'package:flutter_running_app/services/auth.dart';
 import 'package:flutter_running_app/shared/constants.dart';
 import 'package:flutter_running_app/shared/loading.dart';
 
-class SignIn extends StatefulWidget {
-  //const SignIn({super.key});
+class SignUp extends StatefulWidget {
+  //const SignUp({super.key});
 
   final Function toggleAuthenticationForms;
-  const SignIn({super.key, required this.toggleAuthenticationForms });
+  const SignUp({super.key, required this.toggleAuthenticationForms });
 
   @override
-  State<SignIn> createState() => _SignInState();
+  State<SignUp> createState() => _SignUpState();
 }
 
-class _SignInState extends State<SignIn> {
+class _SignUpState extends State<SignUp> {
+
   final AuthService _auth = AuthService();
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
@@ -31,23 +34,19 @@ class _SignInState extends State<SignIn> {
       appBar: AppBar(
         backgroundColor: const Color(0xFF393939),
         elevation: 0.0,
-        title: const Text('Sign in to start running'),
+        title: const Text('Sign up to start running'),
         foregroundColor: const Color(0xFFF2F2F2),
         actions: <Widget>[
           TextButton.icon(
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const SignUp())
-              // );
-              //Navigator.of(context).push(_createRoute());
+              //Navigator.pop(context);
               widget.toggleAuthenticationForms();
             },
             style: TextButton.styleFrom(
               foregroundColor: const Color(0xFFF2F2F2),
             ),
             icon: const Icon(Icons.person),
-            label: const Text('Sign Up'))
+            label: const Text('Sign In'))
         ]
       ),
       body: Container(
@@ -82,16 +81,18 @@ class _SignInState extends State<SignIn> {
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       setState(() => loading = true);
-                      dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                      
+                      dynamic result = await _auth.signUpWithEmailAndPassword(email, password);
+                      
                       if (result == null) {
                         setState(() {
-                          error = 'Could not sign in with given credentials';
+                          error = 'Please enter a valid email';
                           loading = false;
                         });
                       }
                     }
                   },
-                child: const Text('Sign In'),
+                child: const Text('Sign Up'),
                 ),
                 const SizedBox(height: 12.0),
                 Text(
@@ -104,24 +105,4 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
-
-//   Route _createRoute() {
-//   return PageRouteBuilder(
-//     pageBuilder: (context, animation, secondaryAnimation) => const SignUp(),
-//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-//       const begin = Offset(-1.0, 0.0);
-//       const end = Offset.zero;
-//       const curve = Curves.ease;
-
-//       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-//       return SlideTransition(
-//         position: animation.drive(tween),
-//         child: child,
-//       );
-//     },
-//   );
-// }
-
-
 }
