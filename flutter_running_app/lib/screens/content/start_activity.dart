@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_running_app/screens/content/activity.dart';
+import 'package:flutter_running_app/screens/content/countdown.dart';
 import 'package:flutter_running_app/services/auth.dart';
 import 'package:flutter_running_app/shared/constants.dart';
+
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+//https://api.mapbox.com/styles/v1/holigun/clav1jj84007a15o290hw2kbw/tiles/256/{z}/{x}/{y}@2x?access_token=pk.eyJ1IjoiaG9saWd1biIsImEiOiJja3NidXZqaGowYW9wMm9tYzNpYXBrMzEwIn0.purHnG1lh0oYwtM7bpwQFQ
 
 class StartActivity extends StatefulWidget {
   const StartActivity({super.key});
@@ -15,29 +23,70 @@ class _StartActivityState extends State<StartActivity> {
 
   @override
   Widget build(BuildContext context) {
-    Widget durationSection = Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Column(
-          children: const <Widget>[
-            Text(
-              'Duration',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Text(
-              '00:00:00',
-              style: TextStyle(
-                //fontWeight: FontWeight.normal,
-                fontSize: 80,
-              ),
+    var appBar = AppBar();
+    Widget mapPreview = SizedBox(
+        //alignment: Alignment.topCenter,
+        height:
+            (MediaQuery.of(context).size.height - appBar.preferredSize.height) /
+                3,
+        child: FlutterMap(
+          options: MapOptions(
+            center: LatLng(48.202, 16.392),
+            zoom: 13.0,
+          ),
+          //nonRotatedChildren: [
+          // This does NOT fulfill Mapbox's requirements for attribution
+          // See https://docs.mapbox.com/help/getting-started/attribution/
+          // AttributionWidget.defaultWidget(
+          //   source: '',
+          //   onSourceTapped: null,
+          //async {
+          //   // Requires 'url_launcher'
+          //   if (!await launchUrl(Uri.parse(
+          //       "https://docs.mapbox.com/help/getting-started/attribution/"))) {
+          //     // if (kDebugMode) print('Could not launch URL');
+          //   }
+          // },
+          // )
+          // ],
+          children: [
+            TileLayer(
+              urlTemplate:
+                  "https://api.mapbox.com/styles/v1/holigun/clav1jj84007a15o290hw2kbw/tiles/256/{z}/{x}/{y}@2x?access_token={access_token}",
+              additionalOptions: const {
+                "access_token":
+                    "pk.eyJ1IjoiaG9saWd1biIsImEiOiJja3NidXZqaGowYW9wMm9tYzNpYXBrMzEwIn0.purHnG1lh0oYwtM7bpwQFQ",
+              },
+              userAgentPackageName: 'com.example.app',
             ),
           ],
-        ),
-      ],
-    );
+        ));
+
+    Widget durationSection = Container(
+        padding: const EdgeInsets.only(top: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Column(
+              children: const <Widget>[
+                Text(
+                  'Duration',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  '00:00:00',
+                  style: TextStyle(
+                    //fontWeight: FontWeight.normal,
+                    fontSize: 80,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ));
 
     Widget distanceAndPaceSection = Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -116,12 +165,15 @@ class _StartActivityState extends State<StartActivity> {
     // );
 
     Widget startButtonSection = Container(
-        padding: const EdgeInsets.only(bottom: 8),
+        //padding: const EdgeInsets.only(bottom: 8),
         child: IconButton(
-          iconSize: 150,
-          icon: const Icon(Icons.play_circle_outline_rounded),
-          onPressed: () {},
-        ));
+      iconSize: 150,
+      icon: const Icon(Icons.play_circle_outline_sharp),
+      onPressed: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => const Countdown()));
+      },
+    ));
 
     return Scaffold(
       backgroundColor: primary,
@@ -150,6 +202,7 @@ class _StartActivityState extends State<StartActivity> {
       ),
       body: ListView(
         children: [
+          mapPreview,
           durationSection,
           distanceAndPaceSection,
           // finishAndPauseButtonSection,
