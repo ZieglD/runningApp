@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_running_app/screens/content/activity.dart';
 import 'package:flutter_running_app/shared/constants.dart';
 
 import '../../shared/button_widget.dart';
@@ -11,10 +14,48 @@ class Countdown extends StatefulWidget {
 }
 
 class _CountdownState extends State<Countdown> {
+  static const maxSeconds = 5;
+  int seconds = maxSeconds;
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
+
+  void startTimer() {
+    timer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted) {
+        if (seconds > 0) {
+          setState(() => seconds--);
+        } else {
+          stopTimer();
+          //push to activity screen
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const Activity()));
+        }
+      }
+    });
+  }
+
+  void stopTimer() {
+    timer?.cancel();
+  }
+
   Widget countdownButton() {
     return ButtonWidget(
       text: 'Start',
-      onClicked: () {},
+      onClicked: () {
+        startTimer();
+      },
+    );
+  }
+
+  Widget countdownText() {
+    return Text(
+      '$seconds',
+      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 80),
     );
   }
 
@@ -22,7 +63,15 @@ class _CountdownState extends State<Countdown> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: primary,
-      body: Center(child: countdownButton()),
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          countdownText(),
+          //const SizedBox(height: 80),
+          //countdownButton(),
+        ],
+      )),
     );
   }
 }

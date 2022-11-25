@@ -202,7 +202,7 @@ class _StartActivityState extends State<StartActivity> {
       ),
       body: ListView(
         children: [
-          mapPreview,
+          //mapPreview,
           durationSection,
           distanceAndPaceSection,
           // finishAndPauseButtonSection,
