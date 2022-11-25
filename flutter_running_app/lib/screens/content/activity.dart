@@ -39,7 +39,7 @@ class _ActivityState extends State<Activity> {
           children: [
             TileLayer(
               urlTemplate:
-                  "https://api.mapbox.com/styles/v1/holigun/clawl8yu4007f15mw79dxcdeb/tiles/256/{z}/{x}/{y}@2x?access_token={access_token}",
+                  "https://api.mapbox.com/styles/v1/holigun/clawpw8ic00dm14o6pa6ml5gk/tiles/256/{z}/{x}/{y}@2x?access_token={access_token}",
               //"https://api.mapbox.com/styles/v1/holigun/clav1jj84007a15o290hw2kbw/tiles/256/{z}/{x}/{y}@2x?access_token={access_token}",
               additionalOptions: const {
                 "access_token":
