@@ -28,12 +28,12 @@ class _SignInState extends State<SignIn> {
     return loading
         ? const Loading()
         : Scaffold(
-            backgroundColor: const Color(0xFFFFCA1C),
+            backgroundColor: primary,
             appBar: AppBar(
-                backgroundColor: const Color(0xFF393939),
+                backgroundColor: secondary,
                 elevation: 0.0,
                 title: const Text('Sign in to start running'),
-                foregroundColor: const Color(0xFFF2F2F2),
+                foregroundColor: light,
                 actions: <Widget>[
                   TextButton.icon(
                       onPressed: () {
@@ -45,7 +45,7 @@ class _SignInState extends State<SignIn> {
                         widget.toggleAuthenticationForms();
                       },
                       style: TextButton.styleFrom(
-                        foregroundColor: const Color(0xFFF2F2F2),
+                        foregroundColor: light,
                       ),
                       icon: const Icon(Icons.person),
                       label: const Text('Sign Up'))
@@ -89,9 +89,9 @@ class _SignInState extends State<SignIn> {
                       ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor:
-                                MaterialStateProperty.all(Colors.green),
+                                MaterialStateProperty.all(secondary),
                             textStyle: MaterialStateProperty.all(
-                                const TextStyle(color: Colors.white))),
+                                const TextStyle(color: light))),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
                             setState(() => loading = true);
@@ -112,7 +112,7 @@ class _SignInState extends State<SignIn> {
                       Text(
                         error,
                         style:
-                            const TextStyle(color: Colors.red, fontSize: 14.0),
+                            const TextStyle(color: secondary, fontSize: 14.0),
                       ),
                     ],
                   ),

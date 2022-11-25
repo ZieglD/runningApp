@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_running_app/shared/constants.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatelessWidget {
@@ -7,12 +8,12 @@ class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: const Color(0xFFFFCA1C),
-      child: const Center(
-        child: SpinKitWave(
-          color: Color(0xFF393939),
-          size: 50.0,),
-      )
-    );
+        color: primary,
+        child: const Center(
+          child: SpinKitWave(
+            color: secondary,
+            size: 50.0,
+          ),
+        ));
   }
 }
