@@ -86,27 +86,40 @@ class _SignInState extends State<SignIn> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      ElevatedButton(
-                        style: ButtonStyle(
-                            backgroundColor:
-                                MaterialStateProperty.all(secondary),
-                            textStyle: MaterialStateProperty.all(
-                                const TextStyle(color: light))),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            setState(() => loading = true);
-                            dynamic result = await _auth
-                                .signInWithEmailAndPassword(email, password);
-                            if (result == null) {
-                              setState(() {
-                                error =
-                                    'Could not sign in with given credentials';
-                                loading = false;
-                              });
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.9,
+                        height: 70,
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: success,
+                              //minimumSize: Size(200, 50),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50))),
+                          onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              setState(() => loading = true);
+                              dynamic result = await _auth
+                                  .signInWithEmailAndPassword(email, password);
+                              if (result == null) {
+                                setState(() {
+                                  error =
+                                      'Could not sign in with given credentials';
+                                  loading = false;
+                                });
+                              }
                             }
-                          }
-                        },
-                        child: const Text('Sign In'),
+                          },
+                          icon: const Icon(
+                            Icons.login_sharp,
+                            color: secondary,
+                            size: 35,
+                          ),
+                          label: const Text(
+                            'Sign In',
+                            style: TextStyle(color: secondary, fontSize: 25),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 12.0),
                       Text(

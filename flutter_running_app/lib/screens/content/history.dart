@@ -19,7 +19,7 @@ class _HistoryState extends State<History> {
       appBar: AppBar(
         leading: const Icon(
           Icons.directions_run_rounded,
-          color: primary,
+          color: success,
         ),
         title: const Text('Running App'),
         centerTitle: true,

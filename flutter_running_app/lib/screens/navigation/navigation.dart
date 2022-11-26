@@ -38,7 +38,7 @@ class _NavigationState extends State<Navigation> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: secondary,
-        selectedItemColor: primary,
+        selectedItemColor: success,
         unselectedItemColor: light,
         currentIndex: currentIndex,
         showUnselectedLabels: false,
