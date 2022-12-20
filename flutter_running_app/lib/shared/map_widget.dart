@@ -39,24 +39,39 @@ class _MapWidgetState extends State<MapWidget> {
               },
               userAgentPackageName: 'com.example.app',
             ),
-            CurrentLocationLayer(
-              style: LocationMarkerStyle(
-                marker: const DefaultLocationMarker(
-                  color: tertiary,
-                  child: Icon(
-                    Icons.person,
-                    size: 15,
-                    color: primary,
-                  ),
+            // Code for Location Marker
+            // CurrentLocationLayer(
+            //   style: LocationMarkerStyle(
+            //     marker: const DefaultLocationMarker(
+            //       color: tertiary,
+            //       child: Icon(
+            //         Icons.person,
+            //         size: 15,
+            //         color: primary,
+            //       ),
+            //     ),
+            //     markerSize: const Size(25, 25),
+            //     showAccuracyCircle: false,
+            //     headingSectorColor: tertiary.withOpacity(0.8),
+            //     headingSectorRadius: 60,
+            //   ),
+            //   moveAnimationDuration: Duration.zero, // disable animation
+            //   centerOnLocationUpdate: CenterOnLocationUpdate.always,
+            // ),
+            PolylineLayer(
+              polylineCulling: false,
+              polylines: [
+                Polyline(
+                  points: [
+                    LatLng(48.200, 16.390),
+                    LatLng(48.201, 16.391),
+                    LatLng(48.203, 16.393),
+                    LatLng(48.205, 16.397),
+                  ],
+                  color: Colors.blue,
                 ),
-                markerSize: const Size(25, 25),
-                showAccuracyCircle: false,
-                headingSectorColor: tertiary.withOpacity(0.8),
-                headingSectorRadius: 60,
-              ),
-              moveAnimationDuration: Duration.zero, // disable animation
-              centerOnLocationUpdate: CenterOnLocationUpdate.always,
-            ),
+              ],
+            )
           ],
         ),
       ),
