@@ -48,6 +48,8 @@ dependencies:
   latlong2: ^0.8.1
   url_launcher: ^6.1.7
   geolocator: ^9.0.2
+  line_animator: ^1.0.0+3
+  workmanager: ^0.5.1
 
 dev_dependencies:
   flutter_test:

@@ -247,6 +247,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.8.1"
+  line_animator:
+    dependency: "direct main"
+    description:
+      name: line_animator
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0+3"
   lints:
     dependency: transitive
     description:
@@ -476,6 +483,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.0"
+  workmanager:
+    dependency: "direct main"
+    description:
+      name: workmanager
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1"
 sdks:
   dart: ">=2.18.2 <3.0.0"
   flutter: ">=3.3.0"

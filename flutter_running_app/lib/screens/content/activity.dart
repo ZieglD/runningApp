@@ -5,7 +5,14 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_running_app/shared/constants.dart';
 import 'package:flutter_running_app/shared/map_widget.dart';
+import 'package:flutter_running_app/shared/map_widget_activity.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:geolocator_apple/geolocator_apple.dart';
+import 'package:geolocator_android/geolocator_android.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_running_app/shared/data.dart';
+import 'package:workmanager/workmanager.dart';
 
 class Activity extends StatefulWidget {
   const Activity({super.key});
@@ -56,61 +63,6 @@ class _ActivityState extends State<Activity> {
 
   @override
   Widget build(BuildContext context) {
-    // Map, currently not used in this widget --> map_widget.dart
-    // Widget mapPreview = SizedBox(
-    //     //alignment: Alignment.topCenter,
-    //     height: MediaQuery.of(context).size.height,
-    //     child: FlutterMap(
-    //       options: MapOptions(
-    //         center: LatLng(48.202, 16.392),
-    //         zoom: 16.75,
-    //       ),
-    //       //nonRotatedChildren: [
-    //       // This does NOT fulfill Mapbox's requirements for attribution
-    //       // See https://docs.mapbox.com/help/getting-started/attribution/
-    //       // AttributionWidget.defaultWidget(
-    //       //   source: '',
-    //       //   onSourceTapped: null,
-    //       //async {
-    //       //   // Requires 'url_launcher'
-    //       //   if (!await launchUrl(Uri.parse(
-    //       //       "https://docs.mapbox.com/help/getting-started/attribution/"))) {
-    //       //     // if (kDebugMode) print('Could not launch URL');
-    //       //   }
-    //       // },
-    //       // )
-    //       // ],
-    //       children: [
-    //         TileLayer(
-    //           urlTemplate:
-    //               "https://api.mapbox.com/styles/v1/holigun/clawpw8ic00dm14o6pa6ml5gk/tiles/256/{z}/{x}/{y}@2x?access_token={access_token}",
-    //           //"https://api.mapbox.com/styles/v1/holigun/clav1jj84007a15o290hw2kbw/tiles/256/{z}/{x}/{y}@2x?access_token={access_token}",
-    //           additionalOptions: const {
-    //             "access_token":
-    //                 "pk.eyJ1IjoiaG9saWd1biIsImEiOiJja3NidXZqaGowYW9wMm9tYzNpYXBrMzEwIn0.purHnG1lh0oYwtM7bpwQFQ",
-    //           },
-    //           userAgentPackageName: 'com.example.app',
-    //         ),
-    //         CurrentLocationLayer(
-    //           style: LocationMarkerStyle(
-    //             marker: const DefaultLocationMarker(
-    //               color: tertiary,
-    //               child: Icon(
-    //                 Icons.person,
-    //                 size: 15,
-    //                 color: primary,
-    //               ),
-    //             ),
-    //             markerSize: const Size(25, 25),
-    //             showAccuracyCircle: false,
-    //             headingSectorColor: tertiary.withOpacity(0.8),
-    //             headingSectorRadius: 60,
-    //           ),
-    //           moveAnimationDuration: Duration.zero, // disable animation
-    //         ),
-    //       ],
-    //     ));
-
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final hours = twoDigits(duration.inHours.remainder(60));
     final minutes = twoDigits(duration.inMinutes.remainder(60));
@@ -271,17 +223,22 @@ class _ActivityState extends State<Activity> {
                             color: Colors.transparent, shape: CircleBorder()),
                         child: IconButton(
                           iconSize: 40,
-                          icon: isPaused ? const Icon(Icons.play_arrow_sharp) : const Icon(Icons.pause_sharp),
-                          onPressed: buttonEnabled ? () {                            
-                            setState(() {
-                              if (isPaused) {
-                                startTimer(resets: false);
-                                isPaused = false;
-                              } else {
-                                stopTimer(resets: false);
-                                isPaused = true;
-                              }
-                            });} : null,
+                          icon: isPaused
+                              ? const Icon(Icons.play_arrow_sharp)
+                              : const Icon(Icons.pause_sharp),
+                          onPressed: buttonEnabled
+                              ? () {
+                                  setState(() {
+                                    if (isPaused) {
+                                      startTimer(resets: false);
+                                      isPaused = false;
+                                    } else {
+                                      stopTimer(resets: false);
+                                      isPaused = true;
+                                    }
+                                  });
+                                }
+                              : null,
                         ),
                       ),
                     ],
@@ -355,7 +312,8 @@ class _ActivityState extends State<Activity> {
             //finishAndPauseButtonSection,
             Stack(
           children: [
-            const MapWidget(),
+            //const MapWidget(),
+            const MapWidgetActivity(),
             // mapPreview,
             durationSection,
             finishAndPauseButtonSection,

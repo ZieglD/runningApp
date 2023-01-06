@@ -40,24 +40,24 @@ class _MapWidgetState extends State<MapWidget> {
               userAgentPackageName: 'com.example.app',
             ),
             // Code for Location Marker
-            // CurrentLocationLayer(
-            //   style: LocationMarkerStyle(
-            //     marker: const DefaultLocationMarker(
-            //       color: tertiary,
-            //       child: Icon(
-            //         Icons.person,
-            //         size: 15,
-            //         color: primary,
-            //       ),
-            //     ),
-            //     markerSize: const Size(25, 25),
-            //     showAccuracyCircle: false,
-            //     headingSectorColor: tertiary.withOpacity(0.8),
-            //     headingSectorRadius: 60,
-            //   ),
-            //   moveAnimationDuration: Duration.zero, // disable animation
-            //   centerOnLocationUpdate: CenterOnLocationUpdate.always,
-            // ),
+            CurrentLocationLayer(
+              style: LocationMarkerStyle(
+                marker: const DefaultLocationMarker(
+                  color: tertiary,
+                  child: Icon(
+                    Icons.person,
+                    size: 15,
+                    color: primary,
+                  ),
+                ),
+                markerSize: const Size(25, 25),
+                showAccuracyCircle: false,
+                headingSectorColor: tertiary.withOpacity(0.8),
+                headingSectorRadius: 60,
+              ),
+              moveAnimationDuration: Duration.zero, // disable animation
+              centerOnLocationUpdate: CenterOnLocationUpdate.always,
+            ),
             PolylineLayer(
               polylineCulling: false,
               polylines: [
