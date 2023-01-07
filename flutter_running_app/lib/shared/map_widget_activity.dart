@@ -24,7 +24,7 @@ class _MapWidgetActivityState extends State<MapWidgetActivity> {
   late List<LatLng> points;
   Timer? coordinatesTimer;
 
-  Stream<Position> stream = Stream.fromFuture(getPosition());
+  Stream<Position?> stream = Stream.fromFuture(getPosition());
 
   @override
   void initState() {
@@ -104,14 +104,14 @@ class _MapWidgetActivityState extends State<MapWidgetActivity> {
               moveAnimationDuration: Duration.zero, // disable animation
               centerOnLocationUpdate: CenterOnLocationUpdate.always,
             ),
-            StreamBuilder<Position>(
+            StreamBuilder<Position?>(
               stream: stream,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                 coordinatesTimer =
                     Timer.periodic(Duration(seconds: 10), (Timer t) {
                   getPosition();
-                  print('points: ${points}');
+                  // print('points: ${points}');
                 });
                 return PolylineLayer(
                   //polylineCulling: false,

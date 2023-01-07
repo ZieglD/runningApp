@@ -155,7 +155,7 @@ class _StartActivityState extends State<StartActivity> {
                           ),
                         ),
                         Text(
-                          '0,00',
+                          '0.0',
                           style: TextStyle(
                             //fontWeight: FontWeight.normal,
                             fontSize: 30,

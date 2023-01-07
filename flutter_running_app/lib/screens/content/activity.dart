@@ -24,14 +24,20 @@ class Activity extends StatefulWidget {
 class _ActivityState extends State<Activity> {
   Duration duration = Duration();
   Timer? timer;
+  Timer? coordinatesTimer;
+  late double distance;
 
   bool buttonEnabled = false;
   bool isPaused = false;
+
+  // Stream<double> distanceStream = Stream.fromFuture(calculateDistance());
+  Stream<Position?> distanceStream = Stream.fromFuture(getPosition());
 
   @override
   void initState() {
     super.initState();
     startTimer();
+    distance = totalDistance;
   }
 
   void reset() {
@@ -110,7 +116,7 @@ class _ActivityState extends State<Activity> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Column(
-                      children: const <Widget>[
+                      children: <Widget>[
                         Text(
                           'Distance (km)',
                           textAlign: TextAlign.center,
@@ -118,13 +124,29 @@ class _ActivityState extends State<Activity> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          '0,00',
-                          style: TextStyle(
-                            //fontWeight: FontWeight.normal,
-                            fontSize: 30,
-                          ),
-                        ),
+                        StreamBuilder<Position?>(
+                            stream: distanceStream,
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                coordinatesTimer = Timer.periodic(
+                                    Duration(seconds: 10), (Timer t) {
+                                  distance = double.parse((totalDistance / 1000)
+                                      .toStringAsFixed(3));
+                                  // print('points: ${points}');
+                                });
+                                return Text(
+                                  '$distance',
+                                  style: TextStyle(
+                                    //fontWeight: FontWeight.normal,
+                                    fontSize: 30,
+                                  ),
+                                );
+                              }
+                              return Text(
+                                '0.0',
+                                style: TextStyle(fontSize: 30),
+                              );
+                            }),
                       ],
                     ),
                     Column(
