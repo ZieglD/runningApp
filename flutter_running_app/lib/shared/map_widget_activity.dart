@@ -26,6 +26,8 @@ class _MapWidgetActivityState extends State<MapWidgetActivity> {
 
   Stream<Position?> stream = Stream.fromFuture(getPosition());
 
+  
+
   @override
   void initState() {
     points = getPoints();
@@ -111,6 +113,7 @@ class _MapWidgetActivityState extends State<MapWidgetActivity> {
                 coordinatesTimer =
                     Timer.periodic(Duration(seconds: 10), (Timer t) {
                   getPosition();
+                  //points = getPoints();
                   // print('points: ${points}');
                 });
                 return PolylineLayer(

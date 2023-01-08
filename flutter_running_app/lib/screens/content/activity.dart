@@ -30,14 +30,14 @@ class _ActivityState extends State<Activity> {
   bool buttonEnabled = false;
   bool isPaused = false;
 
-  // Stream<double> distanceStream = Stream.fromFuture(calculateDistance());
+
   Stream<Position?> distanceStream = Stream.fromFuture(getPosition());
 
   @override
   void initState() {
     super.initState();
     startTimer();
-    distance = totalDistance;
+    distance = calculateDistance();
   }
 
   void reset() {
@@ -57,7 +57,9 @@ class _ActivityState extends State<Activity> {
     if (resets) {
       reset();
     }
-    timer = Timer.periodic(Duration(seconds: 1), (_) => addTime());
+    timer = Timer.periodic(Duration(seconds: 1), (_) {
+      addTime();
+    });
   }
 
   void stopTimer({bool resets = true}) {
@@ -132,7 +134,6 @@ class _ActivityState extends State<Activity> {
                                     Duration(seconds: 10), (Timer t) {
                                   distance = double.parse((totalDistance / 1000)
                                       .toStringAsFixed(3));
-                                  // print('points: ${points}');
                                 });
                                 return Text(
                                   '$distance',
@@ -253,9 +254,11 @@ class _ActivityState extends State<Activity> {
                                   setState(() {
                                     if (isPaused) {
                                       startTimer(resets: false);
+                                      resumeStream();
                                       isPaused = false;
                                     } else {
                                       stopTimer(resets: false);
+                                      pauseStream();
                                       isPaused = true;
                                     }
                                   });

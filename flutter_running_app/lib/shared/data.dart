@@ -4,35 +4,57 @@ import 'package:geolocator/geolocator.dart';
 
 List<LatLng> polyLinePoints = [];
 double totalDistance = 0;
-  Position? currentPosition;
-  LatLng? previousPosition;
+Position? currentPosition;
+LatLng? previousPosition;
+bool shouldEmit = true;
+
+void pauseStream() {
+  shouldEmit = false;
+}
+
+void resumeStream() {
+  shouldEmit = true;
+}
 
 List<LatLng> getPoints() {
-  // print('Result: ${result}');
   return polyLinePoints;
 }
 
 //Todo: Location Updates wenn das Handy gesperrt ist (evtl. flutter_background_geolocation)
+// holt sich die Koordinaten fügt die letzte Position in die coordinates LatLng Liste hinzu
+// solange shouldEmit true ist (= wenn nicht auf Pause gedrückt wird), berechnet calculateDistance 
+// die Entfernung mit den jeweils letzten beiden Positionen.
+// (Es wird trotzdem eine durchezogene Linie mit allen Punkten aus der Liste gezogen, egal ob pausiert oder nicht,
+// der zurückgelegte Weg ist aber nur die Distanz, die während shouldEmit = true zurückgelegt wurde).
 Future<Position?> getPosition() async {
-  // Position? currentPosition;
-  // LatLng? previousPosition;
+  
+    currentPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    LatLng coordinates =
+        LatLng(currentPosition!.latitude, currentPosition!.longitude);
+    getPoints().add(coordinates);
+    print(getPoints());
+    if (shouldEmit) {
+    calculateDistance();
+    print("should emit");
+  }
+  return currentPosition;
+}
 
-  currentPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  LatLng coordinates = LatLng(currentPosition!.latitude, currentPosition!.longitude);
-  getPoints().add(coordinates);
-
-
+double calculateDistance() {
   if (getPoints().length > 1) {
     previousPosition = getPoints().elementAt(getPoints().length - 2);
 
-    double distanceBetweenLastTwo = Geolocator.distanceBetween(previousPosition!.latitude, previousPosition!.longitude, currentPosition!.latitude, currentPosition!.longitude);
+    double distanceBetweenLastTwo = Geolocator.distanceBetween(
+        previousPosition!.latitude,
+        previousPosition!.longitude,
+        currentPosition!.latitude,
+        currentPosition!.longitude);
     totalDistance += distanceBetweenLastTwo;
-    print('distance between last two: ${distanceBetweenLastTwo}');
-    print('total distance: ${totalDistance}');
+    print('test distance between last two: ${distanceBetweenLastTwo}');
+    print('test total distance: ${totalDistance}');
   }
-
-  print('getPoints: ${getPoints()}');
-  return currentPosition;
+  return totalDistance;
 }
 
 
