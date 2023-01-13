@@ -40,7 +40,7 @@ class _StartActivityState extends State<StartActivity> {
     //   });
     // }
 
-    Future<Position> _determinePosition() async {
+    Future<Position> checkPermissions() async {
       bool serviceEnabled;
       LocationPermission permission;
 
@@ -203,7 +203,7 @@ class _StartActivityState extends State<StartActivity> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50))),
           onPressed: () {
-            _determinePosition();
+            checkPermissions();
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => const Countdown()));
           },

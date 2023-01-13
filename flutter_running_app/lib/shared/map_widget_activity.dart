@@ -12,6 +12,7 @@ import 'dart:async';
 import 'package:geolocator/geolocator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_running_app/shared/data.dart';
+import 'package:flutter_running_app/screens/content/activity.dart';
 
 class MapWidgetActivity extends StatefulWidget {
   const MapWidgetActivity({super.key});
@@ -25,8 +26,6 @@ class _MapWidgetActivityState extends State<MapWidgetActivity> {
   Timer? coordinatesTimer;
 
   Stream<Position?> stream = Stream.fromFuture(getPosition());
-
-  
 
   @override
   void initState() {
@@ -110,22 +109,22 @@ class _MapWidgetActivityState extends State<MapWidgetActivity> {
               stream: stream,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                coordinatesTimer =
-                    Timer.periodic(Duration(seconds: 10), (Timer t) {
-                  getPosition();
-                  //points = getPoints();
-                  // print('points: ${points}');
-                });
-                return PolylineLayer(
-                  //polylineCulling: false,
-                  polylines: [
-                    Polyline(
-                      points: points,
-                      strokeWidth: 2.0,
-                      color: Colors.blue,
-                    ),
-                  ],
-                );
+                  coordinatesTimer =
+                      Timer.periodic(Duration(seconds: 10), (Timer t) {
+                    getPosition();
+                    //points = getPoints();
+                    // print('points: ${points}');
+                  });
+                  return PolylineLayer(
+                    //polylineCulling: false,
+                    polylines: [
+                      Polyline(
+                        points: points,
+                        strokeWidth: 2.0,
+                        color: Colors.blue,
+                      ),
+                    ],
+                  );
                 }
                 return Text('');
               },

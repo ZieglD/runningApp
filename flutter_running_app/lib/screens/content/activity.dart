@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
+import 'package:flutter_running_app/screens/content/end_activity.dart';
 import 'package:flutter_running_app/shared/constants.dart';
 import 'package:flutter_running_app/shared/map_widget.dart';
 import 'package:flutter_running_app/shared/map_widget_activity.dart';
@@ -13,6 +14,7 @@ import 'package:geolocator_android/geolocator_android.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_running_app/shared/data.dart';
 import 'package:workmanager/workmanager.dart';
+import 'package:flutter_running_app/screens/content/end_activity.dart';
 
 class Activity extends StatefulWidget {
   const Activity({super.key});
@@ -29,7 +31,6 @@ class _ActivityState extends State<Activity> {
 
   bool buttonEnabled = false;
   bool isPaused = false;
-
 
   Stream<Position?> distanceStream = Stream.fromFuture(getPosition());
 
@@ -303,7 +304,44 @@ class _ActivityState extends State<Activity> {
                         child: IconButton(
                           iconSize: 40,
                           icon: const Icon(Icons.check_sharp),
-                          onPressed: buttonEnabled ? () {} : null,
+                          onPressed: buttonEnabled
+                              ? () {
+                                  setState(() {
+                                    stopTimer(resets: false);
+                                    pauseStream();
+                                    isPaused = true;
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        title: const Text('Ending Activity'),
+                                        content: const Text(
+                                            'Are you sure you want to end the current activity? You are not able to resume this activity once it has been completed'),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(
+                                                context, 'Cancel'),
+                                            child: const Text('Cancel'),
+                                          ),
+                                          TextButton(
+                                            onPressed: () {
+                                              // Navigator.pop(context, 'OK'),
+                                              setFinish();
+                                              saveData();
+                                              Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          const EndActivity()));
+                                            },
+                                            child: const Text('Finish'),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  });
+                                }
+                              : null,
                         ),
                       ),
                     ],

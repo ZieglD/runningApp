@@ -32,10 +32,11 @@ class AuthService {
 // sign in with email and password
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential result = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       User? user = result.user;
       return _userFromFirebase(user);
-    } catch(e) {
+    } catch (e) {
       print(e.toString());
       return null;
     }
@@ -44,14 +45,17 @@ class AuthService {
 // register with email and password
   Future signUpWithEmailAndPassword(String email, String password) async {
     try {
-      UserCredential result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential result = await _auth.createUserWithEmailAndPassword(
+          email: email, password: password);
       User? user = result.user;
 
       // create new firestore document for user with the uid
-      await DatabaseService(uid: user!.uid).updateUserData('run1', '35:09 min', 5.89, '4.3 min/km');
+      // await DatabaseService(uid: user!.uid).updateUserData('run1', '35:09 min', 5.89, '4.3 min/km');
+      await DatabaseService(uid: user!.uid).updateUserData(4.3);
+      // await DatabaseService(uid: user!.uid).updateActivities(3.67);
 
       return _userFromFirebase(user);
-    } catch(e) {
+    } catch (e) {
       print(e.toString());
       return null;
     }
@@ -61,7 +65,7 @@ class AuthService {
   Future signOutFromApp() async {
     try {
       return await _auth.signOut();
-    } catch(e) {
+    } catch (e) {
       print(e.toString());
       return null;
     }
