@@ -74,6 +74,7 @@ class DatabaseService {
   //       .collection('activities')
   //       .doc(uid)
   //       .collection('userActivities')
+  //       .where('userID', isEqualTo: uid)
   //       .snapshots()
   //       .map(_activityListFromSnapshot);
   // }
@@ -88,7 +89,7 @@ class DatabaseService {
         .then((QuerySnapshot snapshot) {
       final docs = snapshot.docs;
       for (var data in docs) {
-        print(data.data());
+        print(data.get('activityDistance'));
       }
     });
   }
