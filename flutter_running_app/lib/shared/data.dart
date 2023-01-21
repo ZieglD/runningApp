@@ -45,7 +45,7 @@ Future<Position?> getPosition() async {
     LatLng coordinates =
         LatLng(currentPosition!.latitude, currentPosition!.longitude);
     getPoints().add(coordinates);
-    print(getPoints());
+    // print(getPoints());
     if (shouldEmit) {
       calculateDistance();
       print("should emit");

@@ -25,6 +25,7 @@ class Activity extends StatefulWidget {
 
 class _ActivityState extends State<Activity> {
   Duration duration = Duration();
+  Duration pace = Duration();
   Timer? timer;
   Timer? coordinatesTimer;
   late double distance;
@@ -39,6 +40,7 @@ class _ActivityState extends State<Activity> {
     super.initState();
     startTimer();
     distance = calculateDistance();
+
   }
 
   void reset() {
@@ -70,12 +72,24 @@ class _ActivityState extends State<Activity> {
     setState(() => timer?.cancel());
   }
 
+  void calculatePace() {
+    setState(() {
+      double durationInSeconds = duration.inSeconds.toDouble();
+      if (distance != 0) {
+        double paceInSeconds = durationInSeconds / distance;
+        pace = Duration(seconds: paceInSeconds.toInt());
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final hours = twoDigits(duration.inHours.remainder(60));
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
+    final paceMinutes = twoDigits(pace.inMinutes.remainder(60));
+    final paceSeconds = twoDigits(pace.inSeconds.remainder(60));
 
     Widget durationSection = Align(
       alignment: Alignment.topCenter,
@@ -135,6 +149,7 @@ class _ActivityState extends State<Activity> {
                                     Duration(seconds: 10), (Timer t) {
                                   distance = double.parse((totalDistance / 1000)
                                       .toStringAsFixed(3));
+                                    calculatePace();
                                 });
                                 return Text(
                                   '$distance',
@@ -152,7 +167,7 @@ class _ActivityState extends State<Activity> {
                       ],
                     ),
                     Column(
-                      children: const <Widget>[
+                      children: <Widget>[
                         Text(
                           'Pace (min/km)',
                           textAlign: TextAlign.center,
@@ -161,7 +176,7 @@ class _ActivityState extends State<Activity> {
                           ),
                         ),
                         Text(
-                          '00:00:00',
+                          '$paceMinutes:$paceSeconds',
                           style: TextStyle(
                             //fontWeight: FontWeight.normal,
                             fontSize: 30,
@@ -172,50 +187,50 @@ class _ActivityState extends State<Activity> {
                   ],
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 10, top: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Column(
-                      children: const <Widget>[
-                        Text(
-                          'Placeholder',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '-',
-                          style: TextStyle(
-                            //fontWeight: FontWeight.normal,
-                            fontSize: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: const <Widget>[
-                        Text(
-                          'Placeholder',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '-',
-                          style: TextStyle(
-                            //fontWeight: FontWeight.normal,
-                            fontSize: 30,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              // Padding(
+              //   padding: EdgeInsets.only(bottom: 10, top: 10),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //     children: [
+              //       Column(
+              //         children: const <Widget>[
+              //           Text(
+              //             'Placeholder',
+              //             textAlign: TextAlign.center,
+              //             style: TextStyle(
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //           Text(
+              //             '-',
+              //             style: TextStyle(
+              //               //fontWeight: FontWeight.normal,
+              //               fontSize: 30,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //       Column(
+              //         children: const <Widget>[
+              //           Text(
+              //             'Placeholder',
+              //             textAlign: TextAlign.center,
+              //             style: TextStyle(
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //           Text(
+              //             '-',
+              //             style: TextStyle(
+              //               //fontWeight: FontWeight.normal,
+              //               fontSize: 30,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
