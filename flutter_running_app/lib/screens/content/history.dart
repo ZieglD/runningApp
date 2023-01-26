@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_running_app/services/auth.dart';
-import 'package:flutter_running_app/services/database.dart';
 import 'package:flutter_running_app/shared/constants.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_running_app/shared/activities_list.dart';
 
 class History extends StatefulWidget {

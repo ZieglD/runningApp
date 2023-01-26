@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_running_app/shared/constants.dart';
@@ -19,11 +17,7 @@ class _MapWidgetState extends State<MapWidget> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(
-        //alignment: Alignment.topCenter,
-        height:
-            // (MediaQuery.of(context).size.height - appBar.preferredSize.height) /
-            //     2,
-            MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height,
         child: FlutterMap(
           options: MapOptions(
             center: LatLng(48.204, 16.391),
@@ -58,20 +52,20 @@ class _MapWidgetState extends State<MapWidget> {
               moveAnimationDuration: Duration.zero, // disable animation
               centerOnLocationUpdate: CenterOnLocationUpdate.always,
             ),
-            PolylineLayer(
-              polylineCulling: false,
-              polylines: [
-                Polyline(
-                  points: [
-                    LatLng(48.200, 16.390),
-                    LatLng(48.201, 16.391),
-                    LatLng(48.203, 16.393),
-                    LatLng(48.205, 16.397),
-                  ],
-                  color: Colors.blue,
-                ),
-              ],
-            )
+            // PolylineLayer(
+            //   polylineCulling: false,
+            //   polylines: [
+            //     Polyline(
+            //       points: [
+            //         LatLng(48.200, 16.390),
+            //         LatLng(48.201, 16.391),
+            //         LatLng(48.203, 16.393),
+            //         LatLng(48.205, 16.397),
+            //       ],
+            //       color: Colors.blue,
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),

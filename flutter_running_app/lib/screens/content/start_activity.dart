@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
-import 'package:flutter_running_app/screens/content/activity.dart';
 import 'package:flutter_running_app/screens/content/countdown.dart';
 import 'package:flutter_running_app/services/auth.dart';
 import 'package:flutter_running_app/shared/constants.dart';
-
-import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_running_app/shared/map_widget.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class StartActivity extends StatefulWidget {
   const StartActivity({super.key});
@@ -24,22 +18,6 @@ class _StartActivityState extends State<StartActivity> {
 
   @override
   Widget build(BuildContext context) {
-    // Position currentPosition;
-
-    // _getCurrentLocation() {
-    //   Geolocator.getCurrentPosition(
-    //           desiredAccuracy: LocationAccuracy.best,
-    //           forceAndroidLocationManager: true)
-    //       .then((Position position) {
-    //     setState(() {
-    //       currentPosition = position;
-    //       print(currentPosition);
-    //     });
-    //   }).catchError((e) {
-    //     print(e);
-    //   });
-    // }
-
     Future<Position> checkPermissions() async {
       bool serviceEnabled;
       LocationPermission permission;
@@ -59,51 +37,8 @@ class _StartActivityState extends State<StartActivity> {
         return Future.error(
             'Location permissions are permanently denied, we cannot request permissions.');
       }
-      // _getCurrentLocation();
-      print('test');
       return await Geolocator.getCurrentPosition();
     }
-
-    // Widget mapPreview = SizedBox(
-    //     //alignment: Alignment.topCenter,
-    //     height:
-    //         // (MediaQuery.of(context).size.height - appBar.preferredSize.height) /
-    //         //     2,
-    //         MediaQuery.of(context).size.height,
-    //     child: FlutterMap(
-    //       options: MapOptions(
-    //         center: LatLng(48.202, 16.392),
-    //         zoom: 13.0,
-    //       ),
-    //       children: [
-    //         TileLayer(
-    //           urlTemplate:
-    //               "https://api.mapbox.com/styles/v1/holigun/clawpw8ic00dm14o6pa6ml5gk/tiles/256/{z}/{x}/{y}@2x?access_token={access_token}",
-    //           additionalOptions: const {
-    //             "access_token":
-    //                 "pk.eyJ1IjoiaG9saWd1biIsImEiOiJja3NidXZqaGowYW9wMm9tYzNpYXBrMzEwIn0.purHnG1lh0oYwtM7bpwQFQ",
-    //           },
-    //           userAgentPackageName: 'com.example.app',
-    //         ),
-    //         CurrentLocationLayer(
-    //           style: LocationMarkerStyle(
-    //             marker: const DefaultLocationMarker(
-    //               color: tertiary,
-    //               child: Icon(
-    //                 Icons.person,
-    //                 size: 15,
-    //                 color: primary,
-    //               ),
-    //             ),
-    //             markerSize: const Size(25, 25),
-    //             showAccuracyCircle: false,
-    //             headingSectorColor: tertiary.withOpacity(0.8),
-    //             headingSectorRadius: 60,
-    //           ),
-    //           moveAnimationDuration: Duration.zero, // disable animation
-    //         ),
-    //       ],
-    //     ));
 
     Widget durationSection = Align(
       alignment: Alignment.topCenter,
@@ -173,7 +108,7 @@ class _StartActivityState extends State<StartActivity> {
                           ),
                         ),
                         Text(
-                          '00:00:00',
+                          '00:00',
                           style: TextStyle(
                             //fontWeight: FontWeight.normal,
                             fontSize: 30,

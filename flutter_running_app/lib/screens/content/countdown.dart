@@ -31,7 +31,6 @@ class _CountdownState extends State<Countdown> {
           setState(() => seconds--);
         } else {
           stopTimer();
-          //push to activity screen
           Navigator.push(context,
               MaterialPageRoute(builder: (context) => const Activity()));
         }
@@ -68,8 +67,6 @@ class _CountdownState extends State<Countdown> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           countdownText(),
-          //const SizedBox(height: 80),
-          //countdownButton(),
         ],
       )),
     );

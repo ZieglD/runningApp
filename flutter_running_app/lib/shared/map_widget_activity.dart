@@ -1,18 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_running_app/shared/constants.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:line_animator/line_animator.dart';
 import './data.dart';
 import 'dart:async';
-import 'package:geolocator/geolocator.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_running_app/shared/data.dart';
-import 'package:flutter_running_app/screens/content/activity.dart';
 
 class MapWidgetActivity extends StatefulWidget {
   const MapWidgetActivity({super.key});
@@ -43,38 +36,11 @@ class _MapWidgetActivityState extends State<MapWidgetActivity> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(
-        //alignment: Alignment.topCenter,
-        height:
-            // (MediaQuery.of(context).size.height - appBar.preferredSize.height) /
-            //     2,
-            MediaQuery.of(context).size.height,
-        // child: LineAnimator(
-        //   originalPoints: points,
-        //   builtPoints: builtPoints,
-        //   duration: Duration(seconds: 5),
-        //   isReversed: isReversed,
-        //   interpolateBetweenPoints: true,
-        //   stateChangeCallback: (status, pointList) {
-        //     if (status == AnimationStatus.completed) {
-        //       WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-        //             isReversed = !isReversed;
-        //           }));
-        //     }
-        //   },
-        //   duringCallback: (newPoints, point, angle, tweenVal) {
-        //     builtPoints = newPoints;
-        //     markerPoint = point;
-        //     markerAngle = angle;
-        //     latLng.value = point; // valuenotifier
-        //     WidgetsBinding.instance
-        //         .addPostFrameCallback((_) => setState(() {}));
-        //   },
+        height: MediaQuery.of(context).size.height,
         child: FlutterMap(
           options: MapOptions(
             center: LatLng(48.204, 16.391),
             zoom: 16.75,
-            // bounds: LatLngBounds.fromPoints([...getPoints(0), ...getPoints(1)]),
-            //     boundsOptions: FitBoundsOptions(padding: EdgeInsets.all(30)),
           ),
           children: [
             TileLayer(
@@ -112,8 +78,6 @@ class _MapWidgetActivityState extends State<MapWidgetActivity> {
                   coordinatesTimer =
                       Timer.periodic(Duration(seconds: 10), (Timer t) {
                     getPosition();
-                    //points = getPoints();
-                    // print('points: ${points}');
                   });
                   return PolylineLayer(
                     //polylineCulling: false,
@@ -129,22 +93,9 @@ class _MapWidgetActivityState extends State<MapWidgetActivity> {
                 return Text('');
               },
             )
-            // MarkerLayer(markers: [
-            //   Marker(
-            //     width: 180,
-            //     height: 180,
-            //     point: markerPoint,
-            //     builder: (ctx) => Container(
-            //       child: Transform.rotate(
-            //           angle: markerAngle,
-            //           child: Icon(Icons.airplanemode_active_sharp)),
-            //     ),
-            //   ),
-            // ])
           ],
         ),
       ),
-      // ),
     );
   }
 }

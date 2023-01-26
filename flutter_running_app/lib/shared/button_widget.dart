@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_running_app/shared/constants.dart';
 
 class ButtonWidget extends StatelessWidget {
-  // const ButtonWidget({super.key});
   final String text;
   final Color color;
   final Color backgroundColor;

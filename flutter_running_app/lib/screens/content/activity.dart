@@ -1,20 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
 import 'package:flutter_running_app/screens/content/end_activity.dart';
 import 'package:flutter_running_app/shared/constants.dart';
-import 'package:flutter_running_app/shared/map_widget.dart';
 import 'package:flutter_running_app/shared/map_widget_activity.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:latlong2/latlong.dart';
-import 'package:geolocator_apple/geolocator_apple.dart';
-import 'package:geolocator_android/geolocator_android.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_running_app/shared/data.dart';
-import 'package:workmanager/workmanager.dart';
-import 'package:flutter_running_app/screens/content/end_activity.dart';
 
 class Activity extends StatefulWidget {
   const Activity({super.key});
@@ -40,7 +31,6 @@ class _ActivityState extends State<Activity> {
     super.initState();
     startTimer();
     distance = calculateDistance();
-
   }
 
   void reset() {
@@ -149,7 +139,7 @@ class _ActivityState extends State<Activity> {
                                     Duration(seconds: 10), (Timer t) {
                                   distance = double.parse((totalDistance / 1000)
                                       .toStringAsFixed(3));
-                                    calculatePace();
+                                  calculatePace();
                                 });
                                 return Text(
                                   '$distance',
@@ -187,50 +177,6 @@ class _ActivityState extends State<Activity> {
                   ],
                 ),
               ),
-              // Padding(
-              //   padding: EdgeInsets.only(bottom: 10, top: 10),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceAround,
-              //     children: [
-              //       Column(
-              //         children: const <Widget>[
-              //           Text(
-              //             'Placeholder',
-              //             textAlign: TextAlign.center,
-              //             style: TextStyle(
-              //               fontWeight: FontWeight.bold,
-              //             ),
-              //           ),
-              //           Text(
-              //             '-',
-              //             style: TextStyle(
-              //               //fontWeight: FontWeight.normal,
-              //               fontSize: 30,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //       Column(
-              //         children: const <Widget>[
-              //           Text(
-              //             'Placeholder',
-              //             textAlign: TextAlign.center,
-              //             style: TextStyle(
-              //               fontWeight: FontWeight.bold,
-              //             ),
-              //           ),
-              //           Text(
-              //             '-',
-              //             style: TextStyle(
-              //               //fontWeight: FontWeight.normal,
-              //               fontSize: 30,
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -296,13 +242,10 @@ class _ActivityState extends State<Activity> {
                           icon: const Icon(Icons.lock_sharp),
                           onPressed: () {
                             setState(() {
-                              //setState to refresh UI
                               if (buttonEnabled) {
                                 buttonEnabled = false;
-                                //if buttonenabled == true, then make buttonenabled = false
                               } else {
                                 buttonEnabled = true;
-                                //if buttonenabled == false, then make buttonenabled = true
                               }
                             });
                           },
@@ -367,12 +310,6 @@ class _ActivityState extends State<Activity> {
       ),
     );
 
-    // Widget startButtonSection = IconButton(
-    //   iconSize: 150,
-    //   icon: const Icon(Icons.play_circle_outline_rounded),
-    //   onPressed: () {},
-    // );
-
     Widget startButtonSection = Container(
         //padding: const EdgeInsets.only(bottom: 8),
         child: IconButton(
@@ -384,29 +321,13 @@ class _ActivityState extends State<Activity> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: primary,
-        body:
-            // durationSection,
-            //distanceAndPaceSection,
-            //finishAndPauseButtonSection,
-            Stack(
+        body: Stack(
           children: [
-            //const MapWidget(),
             const MapWidgetActivity(),
-            // mapPreview,
             durationSection,
             finishAndPauseButtonSection,
           ],
         ),
-        // mapPreview,
-        //finishAndPauseButtonSection,
-        //startButtonSection,
-        //const Center(child: Text('Activity', style: TextStyle(fontSize: 60))),
-
-        //const Center(child: Text('Activity', style: TextStyle(fontSize: 60))),
-        //     ElevatedButton(
-        //   onPressed: () => setState(() => _showAppBar = !_showAppBar),
-        //   child: const Text('Hide Appbar'),
-        // ),
       ),
     );
   }

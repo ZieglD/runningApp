@@ -1,8 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:flutter_running_app/services/database.dart';
 
 class ActivitiesList extends StatefulWidget {
@@ -17,14 +14,15 @@ class _ActivitiesListState extends State<ActivitiesList> {
   Widget build(BuildContext context) {
     User? user = FirebaseAuth.instance.currentUser;
 
+    DatabaseService(uid: user?.uid).getActivityData();
+
+    // Noch nicht fertig
     // final activities = Provider.of<List<ActivityModel>>(context);
     // print('blub');
     // print(activities);
     // activities.forEach((activity) {
     //   print('list ${activity.activityDistance}');
     // });
-
-    DatabaseService(uid: user?.uid).getActivityData();
 
     // StreamBuilder(
     //   stream: FirebaseFirestore.instance

@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_running_app/screens/content/start_activity.dart';
 import 'package:flutter_running_app/screens/content/history.dart';
 import 'package:flutter_running_app/screens/content/profile.dart';
 import 'package:flutter_running_app/services/auth.dart';
-import 'package:flutter_running_app/screens/authenticate/authenticate.dart';
-import 'package:flutter_running_app/screens/authenticate/sign_up.dart';
 import '../../shared/constants.dart';
 
 class Navigation extends StatefulWidget {

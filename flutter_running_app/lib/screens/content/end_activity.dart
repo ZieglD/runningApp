@@ -1,14 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter_running_app/screens/content/history.dart';
-import 'package:flutter_running_app/screens/content/start_activity.dart';
 import 'package:flutter_running_app/screens/navigation/navigation.dart';
 import 'package:flutter_running_app/services/database.dart';
 import 'package:flutter_running_app/shared/data.dart';
 import 'package:flutter_running_app/shared/map_widget_end.dart';
-import 'package:provider/provider.dart';
 
 import '../../shared/constants.dart';
 

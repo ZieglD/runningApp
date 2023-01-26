@@ -1,18 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:flutter_map_location_marker/flutter_map_location_marker.dart';
-import 'package:flutter_running_app/shared/constants.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
-import 'package:line_animator/line_animator.dart';
 import './data.dart';
 import 'dart:async';
-import 'package:geolocator/geolocator.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_running_app/shared/data.dart';
-import 'package:flutter_running_app/screens/content/activity.dart';
 
 class MapWidgetEnd extends StatefulWidget {
   const MapWidgetEnd({super.key});
@@ -43,11 +34,7 @@ class _MapWidgetEndState extends State<MapWidgetEnd> {
     return Align(
       alignment: Alignment.bottomCenter,
       child: SizedBox(
-        //alignment: Alignment.topCenter,
-        height:
-            // (MediaQuery.of(context).size.height - appBar.preferredSize.height) /
-            //     2,
-            MediaQuery.of(context).size.height,
+        height: MediaQuery.of(context).size.height,
         child: FlutterMap(
           options: MapOptions(
             center: LatLng(48.204, 16.391),
@@ -77,23 +64,9 @@ class _MapWidgetEndState extends State<MapWidgetEnd> {
                 ),
               ],
             )
-
-            // MarkerLayer(markers: [
-            //   Marker(
-            //     width: 180,
-            //     height: 180,
-            //     point: markerPoint,
-            //     builder: (ctx) => Container(
-            //       child: Transform.rotate(
-            //           angle: markerAngle,
-            //           child: Icon(Icons.airplanemode_active_sharp)),
-            //     ),
-            //   ),
-            // ])
           ],
         ),
       ),
-      // ),
     );
   }
 }

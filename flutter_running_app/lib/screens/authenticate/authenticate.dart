@@ -10,7 +10,6 @@ class Authenticate extends StatefulWidget {
 }
 
 class _AuthenticateState extends State<Authenticate> {
-
   bool showSignIn = true;
   toggleAuthenticationForms() {
     setState(() => showSignIn = !showSignIn);
@@ -18,9 +17,6 @@ class _AuthenticateState extends State<Authenticate> {
 
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //   child: const SignIn(),
-    // );
     if (showSignIn) {
       return SignIn(toggleAuthenticationForms: toggleAuthenticationForms);
     } else {

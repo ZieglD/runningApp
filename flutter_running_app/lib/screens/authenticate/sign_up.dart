@@ -4,8 +4,6 @@ import 'package:flutter_running_app/shared/constants.dart';
 import 'package:flutter_running_app/shared/loading.dart';
 
 class SignUp extends StatefulWidget {
-  //const SignUp({super.key});
-
   final Function toggleAuthenticationForms;
   const SignUp({super.key, required this.toggleAuthenticationForms});
 
@@ -82,29 +80,6 @@ class _SignUpState extends State<SignUp> {
                       const SizedBox(
                         height: 20.0,
                       ),
-                      // ElevatedButton(
-                      //   style: ButtonStyle(
-                      //       backgroundColor:
-                      //           MaterialStateProperty.all(secondary),
-                      //       textStyle: MaterialStateProperty.all(
-                      //           const TextStyle(color: light))),
-                      //   onPressed: () async {
-                      //     if (_formKey.currentState!.validate()) {
-                      //       setState(() => loading = true);
-
-                      //       dynamic result = await _auth
-                      //           .signUpWithEmailAndPassword(email, password);
-
-                      //       if (result == null) {
-                      //         setState(() {
-                      //           error = 'Please enter a valid email';
-                      //           loading = false;
-                      //         });
-                      //       }
-                      //     }
-                      //   },
-                      //   child: const Text('Sign Up'),
-                      // ),
                       Container(
                         width: MediaQuery.of(context).size.width * 0.9,
                         height: 70,

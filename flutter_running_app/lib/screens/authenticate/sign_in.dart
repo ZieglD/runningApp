@@ -4,8 +4,6 @@ import 'package:flutter_running_app/shared/constants.dart';
 import 'package:flutter_running_app/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
-  //const SignIn({super.key});
-
   final Function toggleAuthenticationForms;
   const SignIn({super.key, required this.toggleAuthenticationForms});
 
@@ -37,11 +35,6 @@ class _SignInState extends State<SignIn> {
                 actions: <Widget>[
                   TextButton.icon(
                       onPressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(builder: (context) => const SignUp())
-                        // );
-                        //Navigator.of(context).push(_createRoute());
                         widget.toggleAuthenticationForms();
                       },
                       style: TextButton.styleFrom(
@@ -132,23 +125,4 @@ class _SignInState extends State<SignIn> {
                 )),
           );
   }
-
-//   Route _createRoute() {
-//   return PageRouteBuilder(
-//     pageBuilder: (context, animation, secondaryAnimation) => const SignUp(),
-//     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-//       const begin = Offset(-1.0, 0.0);
-//       const end = Offset.zero;
-//       const curve = Curves.ease;
-
-//       var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-//       return SlideTransition(
-//         position: animation.drive(tween),
-//         child: child,
-//       );
-//     },
-//   );
-// }
-
 }
