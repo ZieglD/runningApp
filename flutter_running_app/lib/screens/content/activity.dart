@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_running_app/screens/content/end_activity.dart';
+import 'package:flutter_running_app/services/database.dart';
 import 'package:flutter_running_app/shared/constants.dart';
 import 'package:flutter_running_app/shared/map_widget_activity.dart';
 import 'package:geolocator/geolocator.dart';
@@ -74,6 +76,7 @@ class _ActivityState extends State<Activity> {
 
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
     String twoDigits(int n) => n.toString().padLeft(2, '0');
     final hours = twoDigits(duration.inHours.remainder(60));
     final minutes = twoDigits(duration.inMinutes.remainder(60));
@@ -282,10 +285,29 @@ class _ActivityState extends State<Activity> {
                                             child: const Text('Cancel'),
                                           ),
                                           TextButton(
-                                            onPressed: () {
+                                            onPressed: () async {
+                                              DateTime activityEndTime =
+                                                  DateTime.now();
                                               // Navigator.pop(context, 'OK'),
                                               setFinish();
                                               saveData();
+                                              await DatabaseService(
+                                                      uid: user?.uid)
+                                                  .updateActivities(
+                                                      user!.uid,
+                                                      savedDistance,
+                                                      savedCoordinates,
+                                                      duration,
+                                                      pace,
+                                                      activityEndTime);
+                                              await DatabaseService()
+                                                  .checkAndCompleteChallenges(
+                                                      user.uid,
+                                                      savedDistance,
+                                                      duration.inSeconds,
+                                                      pace.inSeconds.toDouble(),
+                                                      activityEndTime);
+
                                               Navigator.push(
                                                   context,
                                                   MaterialPageRoute(

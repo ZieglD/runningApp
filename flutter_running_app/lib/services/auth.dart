@@ -51,7 +51,11 @@ class AuthService {
 
       // create new firestore document for user with the uid
       // await DatabaseService(uid: user!.uid).updateUserData('run1', '35:09 min', 5.89, '4.3 min/km');
-      await DatabaseService(uid: user!.uid).updateUserData();
+      //await DatabaseService(uid: user!.uid).updateUserData();
+      if (user != null) {
+        await DatabaseService(uid: user.uid).initializeUserChallenges();
+        await DatabaseService(uid: user.uid).initializeUserBadges();
+      }
       // await DatabaseService(uid: user!.uid).updateActivities(3.67);
 
       return _userFromFirebase(user);

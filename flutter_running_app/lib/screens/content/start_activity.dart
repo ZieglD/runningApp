@@ -4,6 +4,12 @@ import 'package:flutter_running_app/services/auth.dart';
 import 'package:flutter_running_app/shared/constants.dart';
 import 'package:flutter_running_app/shared/map_widget.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
+import 'package:flutter_running_app/screens/content/progression.dart';
+import 'package:flutter_running_app/shared/data.dart';
+import 'package:flutter_running_app/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class StartActivity extends StatefulWidget {
   const StartActivity({super.key});
@@ -15,6 +21,88 @@ class StartActivity extends StatefulWidget {
 class _StartActivityState extends State<StartActivity> {
   final AuthService _auth = AuthService();
   bool _showAppBar = true;
+  double totalDistanceAcrossActivities = 0.0;
+  User? user = FirebaseAuth.instance.currentUser;
+  double _totalDistance = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTotalDistance();
+  }
+
+  void _showWelcomeModal() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  'Complete your first activity to earn this badge!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Image.asset(
+                  'assets/badges/badge_001.png',
+                  width: 150, // Adjust the size of the image as needed
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20.0),
+                  child: Text(
+                    'Awarded for completing your first activity',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: success,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                  ),
+                  child: Text(
+                    'Got it!',
+                    style: TextStyle(color: secondary),
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // fetch total distance needed for progress bar
+  Future<void> _loadTotalDistance() async {
+    double totalDistance =
+        await DatabaseService(uid: user?.uid).getTotalActivityDistance();
+    setState(() {
+      _totalDistance = totalDistance;
+    });
+
+    if (_totalDistance == 0.0) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _showWelcomeModal();
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +155,6 @@ class _StartActivityState extends State<StartActivity> {
                       Text(
                         '00:00:00',
                         style: TextStyle(
-                          //fontWeight: FontWeight.normal,
                           fontSize: 80,
                         ),
                       ),
@@ -92,7 +179,6 @@ class _StartActivityState extends State<StartActivity> {
                         Text(
                           '0.0',
                           style: TextStyle(
-                            //fontWeight: FontWeight.normal,
                             fontSize: 30,
                           ),
                         ),
@@ -110,7 +196,6 @@ class _StartActivityState extends State<StartActivity> {
                         Text(
                           '00:00',
                           style: TextStyle(
-                            //fontWeight: FontWeight.normal,
                             fontSize: 30,
                           ),
                         ),
@@ -134,7 +219,6 @@ class _StartActivityState extends State<StartActivity> {
         child: ElevatedButton.icon(
           style: ElevatedButton.styleFrom(
               backgroundColor: success,
-              //minimumSize: Size(200, 50),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(50))),
           onPressed: () {
@@ -156,53 +240,46 @@ class _StartActivityState extends State<StartActivity> {
     );
 
     return Scaffold(
-        backgroundColor: primary,
-        appBar: AppBar(
-          leading: const Icon(
-            Icons.directions_run_rounded,
-            color: success,
-          ),
-          title: const Text('Running App'),
-          centerTitle: true,
-          foregroundColor: light,
-          backgroundColor: secondary,
-          elevation: 0.0,
-          actions: <Widget>[
-            TextButton.icon(
-              icon: const Icon(Icons.person),
-              label: const Text('logout'),
-              style: TextButton.styleFrom(
-                foregroundColor: light,
-              ),
-              onPressed: () async {
-                await _auth.signOutFromApp();
-              },
-            )
-          ],
+      backgroundColor: primary,
+      appBar: AppBar(
+        leading: const Icon(
+          Icons.directions_run_rounded,
+          color: success,
         ),
-        body: Stack(
-          children: [
-            const MapWidget(),
-            Stack(
-              children: [
-                durationSection,
-                //mapPreview,
-
-                //distanceAndPaceSection,
-                //finishAndPauseButtonSection,
-                startButton,
-                //startButtonSection,
-                //const Center(child: Text('Activity', style: TextStyle(fontSize: 60))),
-              ],
+        title: const Text('Running App'),
+        centerTitle: true,
+        foregroundColor: light,
+        backgroundColor: secondary,
+        elevation: 0.0,
+        actions: <Widget>[
+          TextButton.icon(
+            icon: const Icon(Icons.person),
+            label: const Text('logout'),
+            style: TextButton.styleFrom(
+              foregroundColor: light,
             ),
-          ],
-        )
-
-        //const Center(child: Text('Activity', style: TextStyle(fontSize: 60))),
-        //     ElevatedButton(
-        //   onPressed: () => setState(() => _showAppBar = !_showAppBar),
-        //   child: const Text('Hide Appbar'),
-        // ),
-        );
+            onPressed: () async {
+              await _auth.signOutFromApp();
+            },
+          )
+        ],
+      ),
+      body: Stack(
+        children: [
+          const MapWidget(),
+          Column(
+            children: [
+              DistanceProgressBar(totalDistance: _totalDistance),
+              durationSection,
+            ],
+          ),
+          Stack(
+            children: [
+              startButton,
+            ],
+          ),
+        ],
+      ),
+    );
   }
 }

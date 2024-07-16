@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_running_app/screens/content/badges_grid.dart';
+import 'package:flutter_running_app/screens/content/leaderboard.dart';
 import 'package:flutter_running_app/services/auth.dart';
 import 'package:flutter_running_app/shared/constants.dart';
+import 'package:flutter_running_app/services/database.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_running_app/screens/content/progression.dart';
+import 'package:flutter_running_app/screens/content/challenges_list.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -9,8 +15,33 @@ class Profile extends StatefulWidget {
   State<Profile> createState() => _ProfileState();
 }
 
-class _ProfileState extends State<Profile> {
+class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   final AuthService _auth = AuthService();
+  User? user = FirebaseAuth.instance.currentUser;
+  double _totalDistance = 0.0;
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTotalDistance();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  // fetch total distance needed for progress bar
+  Future<void> _loadTotalDistance() async {
+    double totalDistance =
+        await DatabaseService(uid: user?.uid).getTotalActivityDistance();
+    setState(() {
+      _totalDistance = totalDistance;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +69,30 @@ class _ProfileState extends State<Profile> {
             },
           )
         ],
+        bottom: TabBar(
+          controller: _tabController,
+          tabs: const [
+            Tab(text: 'Challenges'),
+            Tab(text: 'Badges'),
+            Tab(text: 'Leaderboard'),
+          ],
+        ),
       ),
-      body:
-          const Center(child: Text('Profile', style: TextStyle(fontSize: 60))),
+      body: Column(
+        children: [
+          DistanceProgressBar(totalDistance: _totalDistance),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: [
+                ChallengesList(),
+                BadgesGrid(),
+                Leaderboard(),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
