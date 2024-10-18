@@ -1,16 +1,15 @@
 # flutter_running_app
 
-A new Flutter project.
+The gamified Flutter Running Sports App accompanying my Master's Thesis.
+The relevant code written for this project is found in the "lib" directory.
 
-## Getting Started
+## Starting the App
 
-This project is a starting point for a Flutter application.
+The project was initially set up for Visual Studio Code, the setup for other IDEs may be different.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Download and install the Flutter SDK. (https://docs.flutter.dev/get-started/install)
+- Download and install the Dart SDK. (https://dart.dev/get-dart)
+- Install Flutter and Dart Extensions for VS Code.
+- Set Flutter SDK Path. Oopen command palette in VS Code (CTRL+SHIFT+P), run "Flutter: Select Flutter SDK" and select the path to your Flutter SDK.
+- Download or clone this project and open it in VS Code.
+- Open a terminal in VS Code and navigate to the project folder. Run the app with the "flutter run" command.
